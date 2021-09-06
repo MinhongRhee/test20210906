@@ -17,6 +17,7 @@
 	left:0px;
 	bottom:0px;
 	width: 100%;
+	height: 300px;
 	text-align: center;
 	}
 	</style>
@@ -44,7 +45,7 @@
         <a class="nav-link" href="#">글쓰기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">회원정보</a>
+        <a class="nav-link" href="/updateForm">회원정보</a>
       </li>  
       <li class="nav-item">
         <a class="nav-link" href="/logout">로그아웃</a>

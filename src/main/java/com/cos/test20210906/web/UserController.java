@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cos.test20210906.domain.user.User;
 import com.cos.test20210906.domain.user.UserRepository;
+import com.cos.test20210906.web.dto.DeleteReqDto;
 import com.cos.test20210906.web.dto.LoginReqDto;
 import com.cos.test20210906.web.dto.SignupReqDto;
+import com.cos.test20210906.web.dto.UpdateReqDto;
 
 @Controller
 public class UserController {
@@ -81,4 +83,26 @@ public class UserController {
 		session.invalidate();
 		return "redirect:/loginForm";
 	}
+	
+	// updateForm
+	@GetMapping("/updateForm")
+	public String updateForm() {
+		return "user/updateForm";
+	}
+	
+	// update
+	@PostMapping("/update")
+	public String mUpdate(UpdateReqDto dto, HttpServletResponse response) {
+		userRepository.mUpdate(dto.getUsername(),dto.getPassword(),dto.getCpassword());
+		return "redirect:/home";
+	}
+	
+	// delete
+	@PostMapping("/delete")
+	public String delete(DeleteReqDto dto) {
+		userRepository.mDelete(dto.getUsername(),dto.getPassword(),dto.getEmail());
+		session.invalidate();
+		return "redirect:/home";
+	}
+	
 }
