@@ -6,7 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.cos.test20210906.domain.user.User;
 import com.cos.test20210906.domain.user.UserRepository;
+import com.cos.test20210906.web.dto.LoginReqDto;
 import com.cos.test20210906.web.dto.SignupReqDto;
 
 @Controller
@@ -46,5 +48,17 @@ public class UserController {
 		return "user/loginForm";
 	}
 	
+	// login
+	@PostMapping("/login")
+	public String login(LoginReqDto dto) {
+		User userEntity = userRepository.mLogin(dto.getUsername(),dto.getPassword());
+		
+		if (userEntity == null) {
+			return "redirect:/loginForm";
+		} else {
+			session.setAttribute("principal", userEntity);
+			return "redirect:/home";
+		}
+	}
 	
 }
