@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class LoginReqDto {
 	private String username;
 	private String password;
+	private String idChecked;
 	
 	public static void main(String[] args) {
 		LoginReqDto dto = new LoginReqDto();

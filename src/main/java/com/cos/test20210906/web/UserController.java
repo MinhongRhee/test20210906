@@ -1,10 +1,14 @@
 package com.cos.test20210906.web;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.cos.test20210906.domain.user.User;
 import com.cos.test20210906.domain.user.UserRepository;
@@ -50,15 +54,25 @@ public class UserController {
 	
 	// login
 	@PostMapping("/login")
-	public String login(LoginReqDto dto) {
+	public String login(LoginReqDto dto, HttpServletResponse response) {
 		User userEntity = userRepository.mLogin(dto.getUsername(),dto.getPassword());
-		
 		if (userEntity == null) {
 			return "redirect:/loginForm";
 		} else {
+			if( dto.getIdChecked() == null) {
 			session.setAttribute("principal", userEntity);
 			return "redirect:/home";
-		}
+			} else {
+				  session.setAttribute("principal", userEntity);
+				  Cookie cusername = new Cookie("username", dto.getUsername());
+				  Cookie cpassword = new Cookie("password", dto.getPassword());
+				  cusername.setMaxAge(60*10);
+				  cpassword.setMaxAge(60*10);
+				  response.addCookie(cusername); 
+				  response.addCookie(cpassword);
+				  return "redirect:/home";
+			}
+		}	
 	}
 	
 	// logout
